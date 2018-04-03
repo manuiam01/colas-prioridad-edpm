@@ -23,7 +23,7 @@ monticulo_vacio(monticulo(nil,0)).
 /* Combina dos monticulos */
 combinar(nil, H, H).        %combinar(monticulo(nil,0),monticulo(H,X),monticulo(H,X)).
 combinar(H, nil, H).        %combinar(monticulo(H,X),monticulo(nil,0),monticulo(H,X)).
-combinar(L, R, H) :-        %combinar(monticulo(H,X),monticulo(R,Y),monticulo(H,X+Y)):-
+combinar(L, R, Q) :-        %combinar(monticulo(H,X),monticulo(R,Y),monticulo(H,X+Y)):-
   L = t(X,Px,SubL),
   R = t(Y,Py,SubR),
   (   Px @< Py
@@ -40,8 +40,8 @@ emparejar([Q0,Q1|Qs], Q) :-
     combinar(Q2, Q3, Q).
 
 /* Añade un elemento al montículo */
-anadir_elemento(monticulo(H0, M), Prioridad, Elemento, monticulo(H, N)) :-
-  combinar(H0, t(E, P, []), H1),
+anadir_elemento(monticulo(H0, M), P, E, monticulo(H, N)) :-
+  combinar(H0, t(E, P, []), H),
   N is M+1.
 
 /* Obtiene el elemento de mayor prioridad */
@@ -63,8 +63,6 @@ lista_a_monticulo([[P,X]|Xs],Q0,Q) :-
 monticulo_a_lista(Q,L) :-
     a_lista(Q,L).
 a_lista(monticulo(nil,0),[]) :- !.
-a_lista(Q0,[P,X|Xs]) :-
+a_lista(Q0,[[P,X]|Xs]) :-
     obtener_primero(Q0,P,X,Q),
     monticulo_a_lista(Q,Xs).
-
-/*
